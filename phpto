@@ -1,0 +1,34 @@
+after=$1
+
+php_version=$(php --version)
+before=${php_version:4:3}
+
+if [[ -z "$after" ]]; then
+    RED='\033[0;31m'
+    NC='\033[0m'
+
+    echo "${RED}[ERROR] ${NC}Please input php version. ex) phpto 7.2"
+    exit 1;
+fi
+
+if [ ! -d "/usr/local/opt/php@$after" ]; then
+    printf "PHP $after version is not installed. Do you want to install it? (y, n): "
+    read yn
+
+    if [ "$yn" == "y" ]; then
+        brew install php@$after
+    else
+        exit 1;
+    fi
+fi
+
+echo "PHP will change from $before version to $after version"
+brew unlink php@$before
+brew link --force --overwrite php@$after
+echo "LoadModule php${after:0:1}_module /usr/local/opt/php@$after/lib/httpd/modules/libphp${after:0:1}.so" > /usr/local/etc/httpd/extra/httpd-php.conf
+
+echo ""
+
+echo "apache restart..."
+sudo apachectl restart
+echo "success!"
