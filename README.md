@@ -43,18 +43,3 @@ Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
   
 또한 개인적으로 아파치와 연동하여 작업을 진행하고있는데, 아파치의 PHP 모듈 변경 및 재시작을 위한 스크립트도 작성되어있습니다.  
 
-``` bash
-echo "LoadModule php${after:0:1}_module /usr/local/opt/php@$after/lib/httpd/modules/libphp${after:0:1}.so" > /usr/local/etc/httpd/extra/httpd-php.conf
-
-echo ""
-
-echo "apache restart..."
-sudo apachectl restart
-echo "success!"
-```
-
-위 내용인데 이를 위해 `httpd.conf` 파일에 아래와 같은 내용 작성이 필요합니다.
-```
-# PHP setting
-Include /usr/local/etc/httpd/extra/httpd-php.conf
-```
