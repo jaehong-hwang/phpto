@@ -25,10 +25,5 @@ fi
 echo "PHP will change from $before version to $after version"
 brew unlink php@$before
 brew link --force --overwrite php@$after
-echo "LoadModule php${after:0:1}_module /usr/local/opt/php@$after/lib/httpd/modules/libphp${after:0:1}.so" > /usr/local/etc/httpd/extra/httpd-php.conf
 
-echo ""
-
-echo "apache restart..."
-sudo apachectl restart
 echo "success!"
